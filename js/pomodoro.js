@@ -1,7 +1,9 @@
 $(document).ready(function() {
 
     var keyframes = {
+        // Establish reference to css stylesheet
         sheet: document.styleSheets[0],
+
         add: function(str) {
             keyframes.sheet.insertRule(str, 0);
         },
@@ -27,9 +29,9 @@ $(document).ready(function() {
                 $(".play-time-text").html(controlCenter.playTime.value);
             },
 
-			get: function() {
-				return controlCenter.playTime.value;
-			}
+            get: function() {
+                return controlCenter.playTime.value;
+            }
         },
         workTime: {
             value: 25,
@@ -44,51 +46,53 @@ $(document).ready(function() {
             update: function() {
                 $(".work-time-text").html(controlCenter.workTime.value);
             },
-			get: function() {
-				return controlCenter.workTime.value;
-			}
+            get: function() {
+                return controlCenter.workTime.value;
+            }
         },
         toggleControlButton: function() {
             if (clock.state) {
-				if (clock.paused) {
-					$(".pause").hide();
-	                $(".start").show();
-				} else {
-					$(".pause").show();
-	                $(".start").hide();
-				}
+                if (clock.paused) {
+                    $(".pause").hide();
+                    $(".start").show();
+                } else {
+                    $(".pause").show();
+                    $(".start").hide();
+                }
             } else if (!clock.state) {
-				$(".pause").hide();
+                $(".pause").hide();
                 $(".start").show();
             }
 
         },
 
-		toggleHighlightBar: function(){
-			if (clock.mode === "work") {
-				$(".work-label").addClass("highlight");
-				$(".play-label").removeClass("highlight");
-			} else if (clock.mode === "play") {
-				$(".play-label").addClass("highlight");
-				$(".work-label").removeClass("highlight");
-			}
-		},
-
-		switchboard: function() {
-			if (clock.state) {
-				if (clock.paused) {
-					clock.resume();
-				} else {
-					clock.pause();
-				}
-            } else if (!clock.state) {
-				clock.setClockTime();
+        toggleHighlightBar: function() {
+            if (clock.mode === "work") {
+                $(".work-label").addClass("highlight");
+                $(".play-label").removeClass("highlight");
+            } else if (clock.mode === "play") {
+                $(".play-label").addClass("highlight");
+                $(".work-label").removeClass("highlight");
             }
-		}
-	};
+        },
+
+        switchboard: function() {
+            if (clock.state) {
+                if (clock.paused) {
+                    clock.resume();
+                } else {
+                    clock.pause();
+                }
+            } else if (!clock.state) {
+                // Hide messages
+                messageCenter.hideAll();
+                clock.setClockTime();
+            }
+        }
+    };
 
     var chimes = {
-        chimeAudio: new Audio("media/Cartoon Trill.mp3"),
+        chimeAudio: new Audio("img/Cartoon Trill.mp3"),
         play: function() {
             chimes.chimeAudio.play();
         },
@@ -130,7 +134,7 @@ $(document).ready(function() {
 
         state: false,
         paused: false,
-		mode: "work",
+        mode: "work",
         time: 0,
         timeElapsed: 0,
         startTime: 0,
@@ -139,36 +143,36 @@ $(document).ready(function() {
 
         toggleClockState: function() {
             clock.state = !clock.state;
-			console.log("clock.state "+ clock.state);
+            console.log("clock.state " + clock.state);
         },
 
-		toggleClockMode: function() {
-			if (clock.mode === "work") {
-				clock.mode = "play";
-			} else {
-				clock.mode = "work";
-			}
-			console.log("clock.mode " + clock.mode);
-			controlCenter.toggleHighlightBar();
-		},
+        toggleClockMode: function() {
+            if (clock.mode === "work") {
+                clock.mode = "play";
+            } else {
+                clock.mode = "work";
+            }
+            console.log("clock.mode " + clock.mode);
+            controlCenter.toggleHighlightBar();
+        },
 
         togglePause: function() {
             clock.paused = !clock.paused;
-			console.log("clock.paused "+ clock.paused);
+            console.log("clock.paused " + clock.paused);
         },
 
-		setClockTime: function () {
-			if (clock.mode === "work") {
-				clock.time = controlCenter.workTime.get();
-			} else if (clock.mode === "play") {
-				clock.time = controlCenter.playTime.get();
-			}
-			clock.wind();
-		},
+        setClockTime: function() {
+            if (clock.mode === "work") {
+                clock.time = controlCenter.workTime.get();
+            } else if (clock.mode === "play") {
+                clock.time = controlCenter.playTime.get();
+            }
+            clock.wind();
+        },
 
         wind: function() {
-			// If there is a reminder event active, clear it
-			reminder.clear();
+            // If there is a reminder event active, clear it
+            reminder.clear();
 
             // Add @keyframes statements for wind motion
             keyframes.add(clock.minuteHand.wind.getKeyframes());
@@ -179,7 +183,7 @@ $(document).ready(function() {
             // Wait for animation to stop
             window.setTimeout(function() {
                 // Set position of minute hand
-                clock.minuteHand.setPositionClass()
+                clock.minuteHand.setPositionClass(true);
                     // Remove @keyframes statements from wind motion
                 keyframes.remove(2);
                 // Remove wind class from elements
@@ -211,7 +215,7 @@ $(document).ready(function() {
         pause: function() {
             clock.togglePause();
 
-			clock.stopTime = Date.now()
+            clock.stopTime = Date.now()
 
             window.clearTimeout(clock.clockEvent);
 
@@ -241,35 +245,40 @@ $(document).ready(function() {
 
             // Remove @keypoints statement from unwind motion
             keyframes.remove(1);
-            // Remove unwind class from elements
 
+            // Remove unwind class from elements
             clock.minuteHand.stopAnimation("minute-hand-unwind");
             clock.secondHand.stopAnimation("second-hand-unwind");
 
+            // Remove position class from minute hand, reset
+            clock.minuteHand.setPositionClass(false);
+
             clock.toggleClockState();
-			clock.toggleClockMode();
-			if (snooze.state) {
-				snooze.hideAnimation();
-				snooze.toggleSnoozeState();
-			}
-			chimes.animate();
+            clock.toggleClockMode();
+            if (snooze.state) {
+                snooze.hideAnimation();
+                snooze.toggleSnoozeState();
+            }
+            chimes.animate();
             controlCenter.toggleControlButton();
             reminder.set();
             messageCenter.displayNextStep(clock.mode);
         },
 
-		recieveSnooze: function(minutes) {
-			clock.time = minutes;
-			clock.toggleClockMode();
-			clock.wind();
-		},
+        recieveSnooze: function(minutes) {
+            clock.time = minutes;
+            clock.toggleClockMode();
+            clock.wind();
+        },
 
-		clearSnooze(){
-			clearTimeout(clock.clockEvent)
-			clock.end();
-		},
+        clearSnooze() {
+            clearTimeout(clock.clockEvent)
+            clock.end();
+        },
 
         minuteHand: {
+
+            positionClass: "twelve",
 
             wind: {
                 getKeyframes: function() {
@@ -279,7 +288,7 @@ $(document).ready(function() {
 
             unwind: {
                 getKeyframes: function() {
-                    return "@keyframes unwind-minute-hand {100% {transform: rotate(" + (clock.time / -5 + 12) + "deg);}}";
+                    return "@keyframes unwind-minute-hand {100% {transform: rotate(" + (clock.time * -6 + 360) + "deg);}}";
                 },
             },
 
@@ -299,18 +308,23 @@ $(document).ready(function() {
                 }
             },
 
-            setPositionClass: function(str) {
-                var minutes = clock.time;
-                if (minutes > 60) {
-                    minutes = minutes % 60;
+            // Sets position class for minute hand at the beginning/end of cycles.
+            // @param actionBool: true: set position based on clock time
+            //                    false: reset position to 0 deg./twelve o'clock
+            setPositionClass: function(actionBool) {
+                var minutes = clock.time % 60;
+                var positionLookup = ["twelve", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven"];
+                $(".minute-hand").removeClass(clock.minuteHand.positionClass);
+
+                if (actionBool) {
+                    clock.minuteHand.positionClass = positionLookup[minutes / -5 + 12];
+                } else {
+                    clock.minuteHand.positionClass = "twelve";
                 }
 
-                var positionLookup = ["twelve", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven"]
-
-                $(".minute-hand").addClass(positionLookup[minutes / -5 + 12]);
+                $(".minute-hand").addClass(clock.minuteHand.positionClass);
 
             },
-
         },
 
         secondHand: {
@@ -363,91 +377,90 @@ $(document).ready(function() {
 
     };
 
-	var snooze = {
-		state: false,
-		time: 0,
+    var snooze = {
+        state: false,
+        time: 0,
 
-		toggleSnoozeState: function() {
-			snooze.state = !snooze.state;
-			console.log("snooze.state " + snooze.state);
-		},
-		showAnimation: function() {
-			$(".snooze-icon").show();
-		},
-		hideAnimation: function() {
-			$(".snooze-icon").hide();
-		},
-		set: function(minutes){
-			snooze.time = minutes;
-		},
-		start: function(minutes){
-			snooze.toggleSnoozeState();
-			snooze.set(minutes);
-			clock.recieveSnooze(minutes);
-			snooze.showAnimation();
-		},
-		clear: function(){
-			clock.clearSnooze();
-			snooze.hideAnimation();
-		},
-	};
+        toggleSnoozeState: function() {
+            snooze.state = !snooze.state;
+            console.log("snooze.state " + snooze.state);
+        },
+        showAnimation: function() {
+            $(".snooze-icon").show();
+        },
+        hideAnimation: function() {
+            $(".snooze-icon").hide();
+        },
+        set: function(minutes) {
+            snooze.time = minutes;
+        },
+        start: function(minutes) {
+            snooze.toggleSnoozeState();
+            snooze.set(minutes);
+            clock.recieveSnooze(minutes);
+            snooze.showAnimation();
+        },
+        clear: function() {
+            clock.clearSnooze();
+            snooze.hideAnimation();
+        },
+    };
 
-	var messageCenter = {
-		displayNextStep: function(){
-			if (clock.mode === "play") {
-	            $(".next-step-container>span").html("START PLAYING <span class='fa fa-caret-right'></span>");
-	            $(".continue-working-container").show();
-	            $(".next-step-container").show();
-	        } else if (clock.mode === "work") {
-	            $(".next-step-container>span").html("BACK TO WORK <span class='fa fa-caret-right'></span>");
-	            $(".next-step-container").show();
-	        }
-		},
+    var messageCenter = {
+        displayNextStep: function() {
+            if (clock.mode === "play") {
+                $(".next-step-container>span").html("START PLAYING <span class='fa fa-caret-right'></span>");
+                $(".continue-working-container").show();
+                $(".next-step-container").show();
+            } else if (clock.mode === "work") {
+                $(".next-step-container>span").html("BACK TO WORK <span class='fa fa-caret-right'></span>");
+                $(".next-step-container").show();
+            }
+        },
 
-		hideLevelOne: function(){
-			$(".lvl1").hide();
-		},
+        hideLevelOne: function() {
+            $(".lvl1").hide();
+        },
 
-		hideLevelTwo: function() {
-			$(".lvl2").hide();
-		},
+        hideLevelTwo: function() {
+            $(".lvl2").hide();
+        },
 
-		hideAll: function(){
-			messageCenter.hideLevelOne();
-			messageCenter.hideLevelTwo();
-		},
+        hideAll: function() {
+            messageCenter.hideLevelOne();
+            messageCenter.hideLevelTwo();
+        },
 
-		showSnoozeOptions: function(){
-			reminder.clear();
-			messageCenter.hideLevelOne();
-			$(".continue-control-container").show();
-		},
+        showSnoozeOptions: function() {
+            reminder.clear();
+            messageCenter.hideLevelOne();
+            $(".continue-control-container").show();
+        },
 
-		showStartOptions: function(){
-			reminder.clear();
-			messageCenter.hideLevelOne();
-			$(".next-step-control-container").show();
-		},
+        showStartOptions: function() {
+            reminder.clear();
+            messageCenter.hideLevelOne();
+            $(".next-step-control-container").show();
+        },
 
-		showAdjustMessage: function(){
-			messageCenter.hideAll();
-			$(".next-step-adjust-message").show();
-	        window.setTimeout(function() {
-	            $(".next-step-adjust-message").hide()
-	        }, 3000);
-		},
+        showAdjustMessage: function() {
+            messageCenter.hideAll();
+            $(".next-step-adjust-message").show();
+            window.setTimeout(function() {
+                $(".next-step-adjust-message").hide()
+            }, 3000);
+        },
 
-		startNextCycle: function(){
-			messageCenter.hideAll();
-	        $(".control-symbol").trigger("click");
-		},
+        startNextCycle: function() {
+            messageCenter.hideAll();
+            $(".control-symbol").trigger("click");
+        },
 
-	};
+    };
 
 
-    // Click handlers
     $("#test").on("click", function() {
-		//
+        //
     });
 
     $(".work-time-plus").on("click", function() {
@@ -473,7 +486,7 @@ $(document).ready(function() {
     });
 
     $(".continue-working-container").on("click", function() {
-		messageCenter.showSnoozeOptions();
+        messageCenter.showSnoozeOptions();
     });
 
     $(".back").on("click", function() {
@@ -481,18 +494,18 @@ $(document).ready(function() {
         messageCenter.displayNextStep();
     });
     $(".snooze-5").on("click", function() {
-		messageCenter.hideAll();
-		snooze.start(5);
+        messageCenter.hideAll();
+        snooze.start(5);
 
     });
     $(".snooze-10").on("click", function() {
-		messageCenter.hideAll();
-		snooze.start(10);
+        messageCenter.hideAll();
+        snooze.start(10);
 
     });
     $(".snooze-15").on("click", function() {
-		messageCenter.hideAll();
-		snooze.start(15);
+        messageCenter.hideAll();
+        snooze.start(15);
 
     });
 
@@ -501,11 +514,11 @@ $(document).ready(function() {
     });
 
     $(".next-step-adjust").on("click", function() {
-		messageCenter.showAdjustMessage();
+        messageCenter.showAdjustMessage();
     });
 
-	$(".next-step-start").on("click", function() {
-		messageCenter.startNextCycle();
+    $(".next-step-start").on("click", function() {
+        messageCenter.startNextCycle();
     });
 
 });

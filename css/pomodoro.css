@@ -19,8 +19,8 @@ body {
 .clock-container {
 	position: relative;
 	//display: inline-block;
-	height: 185;
-	width: 150;
+	height: 185px;
+	width: 150px;
 	margin: auto;
 
 }
@@ -29,8 +29,8 @@ body {
 	position: absolute;
 	top: 25px;
 	left: 0px;
-	height: 150;
-	width: 150;
+	height: 150px;
+	width: 150px;
 	//background-color: yellowgreen;
 	border-radius: 50%;
 }
@@ -332,9 +332,6 @@ body {
 
 }
 
-.pause {
-	display: none;
-}
 
 .title {
 	width: 100%;
@@ -363,4 +360,8 @@ body {
 
 .highlight{
 	border-bottom: 2px solid cadetblue;
+}
+
+.button, .start, .pause {
+	cursor: pointer;
 }
