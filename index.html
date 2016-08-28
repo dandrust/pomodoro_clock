@@ -1,0 +1,125 @@
+<html>
+
+<head>
+	<title>Pomodoro Clock</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="https://use.fontawesome.com/3b358e4eff.js"></script>
+	<script src="js/pomodoro.js"></script>
+
+	<!--<link href="css/bootstrap.min.css" rel='stylesheet' type='text/css' />-->
+	<link href="css/pomodoro.css" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<!--<button type="button" id="test">TEST</button>-->
+	<div class=" background-container b">
+		<div class="title">
+			POMODORO CLOCK
+		</div>
+
+
+		<div class="clock-container ">
+			<div class="clock-body">
+				<div class="marker twelve"></div>
+				<div class="marker one"></div>
+				<div class="marker two"></div>
+				<div class="marker three"></div>
+				<div class="marker four"></div>
+				<div class="marker five"></div>
+				<div class="marker six"></div>
+				<div class="marker seven"></div>
+				<div class="marker eight"></div>
+				<div class="marker nine"></div>
+				<div class="marker ten"></div>
+				<div class="marker eleven"></div>
+				<div class="snooze-icon">ZZZ</div>
+			</div>
+			<div class="bell bell-one"></div>
+			<div class="bell bell-two"></div>
+			<div class="bell-peg peg-one"></div>
+			<div class="bell-peg peg-two"></div>
+			<div class="hammer"></div>
+			<div class="feet foot-one"></div>
+			<div class="feet foot-two"></div>
+			<div class="long-hand second-hand"></div>
+			<div class="long-hand minute-hand"></div>
+		</div>
+
+
+
+		<div class="time-control-container">
+			<div class="work-container b">
+				<div class="work-label highlight b">
+					<span class="label work-time-label ">WORK</span>
+				</div>
+				<div class="work-time-controls b">
+					<div class="button work-time-plus b">+</div>
+					<div class="button work-time-minus b">-</div>
+				</div>
+				<div class="work-time b">
+					<span class="work-time-text">25</span>
+				</div>
+			</div>
+			<div class="control-container ">
+
+				<div class="control-symbol">
+					<span class="start fa fa-play fa-2x"></span>
+					<span class='pause fa fa-pause fa-2x'></span>
+				</div>
+			</div>
+			<div class="play-container ">
+				<div class="play-label">
+					<span class="label play-time-label">PLAY</span>
+				</div>
+				<div class="play-time-controls">
+					<div class="button play-time-plus">+</div>
+					<div class="button play-time-minus">-</div>
+				</div>
+				<div class="play-time">
+					<span class="play-time-text">5</span>
+				</div>
+
+			</div>
+
+
+
+
+		</div>
+
+		<div class="message-container">
+
+			<div class="lvl1 continue-working-container b ">
+				<span class="label">KEEP WORKING <span class="fa fa-caret-right"></span></span>
+			</div>
+
+			<div class="lvl2 continue-control-container b ">
+
+				<span class="back fa fa-caret-left"></span>
+				<span class="snooze snooze-5 ">5m</span>
+				<span class="snooze snooze-10">10m</span>
+				<span class="snooze snooze-15">15m</span>
+			</div>
+
+			<div class="lvl1 next-step-container b ">
+				<span class="label">START PLAYING <span class="fa fa-caret-right"></span></span>
+			</div>
+
+			<div class="lvl2 next-step-control-container b ">
+				<span class="back fa fa-caret-left"></span>
+				<span class="next-step-adjust">ADJUST TIME</span>
+				<span class="next-step-start">GO</span>
+			</div>
+			<div class="lvl2 next-step-adjust-message">
+				<span class="label">Adjust time and push start</span>
+			</div>
+		</div>
+
+	</div>
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,366 @@
+
+
+
+div {
+	font-family: helvetica;
+	color: cadetblue;
+
+}
+
+.clock-body, .bell, .bell-peg, .hammer, .feet, .long-hand {
+	//background-color:yellowgreen;
+	background-color: cadetblue;
+}
+
+body {
+	background-color: paleturquoise;
+}
+
+.clock-container {
+	position: relative;
+	//display: inline-block;
+	height: 185;
+	width: 150;
+	margin: auto;
+
+}
+
+.clock-body {
+	position: absolute;
+	top: 25px;
+	left: 0px;
+	height: 150;
+	width: 150;
+	//background-color: yellowgreen;
+	border-radius: 50%;
+}
+
+.clock-body:before {
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	height: 120px;
+	width: 120px;
+	background-color: palegoldenrod;
+	border-radius: 50%;
+	content: "";
+}
+
+.marker {
+	position: absolute;
+	height: 5px;
+	width: 2px;
+	top: 8px;
+	left: 74px;
+	background-color: palegoldenrod;
+	z-index: 1;
+	transform-origin: center 67px;
+
+}
+
+.one {
+	transform: rotate(-330deg);
+}
+
+.two {
+	transform: rotate(-300deg);
+}
+
+.three {
+	transform: rotate(-270deg);
+}
+
+.four {
+	transform: rotate(-240deg);
+}
+
+.five {
+	transform: rotate(-210deg);
+}
+
+.six {
+	transform: rotate(-180deg);
+}
+
+.seven {
+	transform: rotate(-150deg);
+}
+
+.eight {
+	transform: rotate(-120deg);
+}
+
+.nine {
+	transform: rotate(-90deg);
+}
+
+.ten {
+	transform: rotate(-60deg);
+}
+
+.eleven {
+	transform: rotate(-30deg);
+}
+
+.twelve {
+	transform: rotate(0deg);
+}
+
+.bell {
+	position: absolute;
+	height: 25px;
+	width: 50px;
+	top: 8px;
+	border-top-left-radius: 50%;
+	border-top-right-radius: 50%;
+}
+
+.bell-peg {
+	position: absolute;
+	width: 5px;
+	height: 10px;
+	top: 27px;
+}
+
+.peg-one {
+	left: 34px;
+	transform: rotate(-28deg);
+}
+
+.peg-two {
+	right: 34px;
+	transform: rotate(28deg);
+}
+
+.bell-one {
+	left: 5px;
+	transform: rotate(-28deg);
+	animation: none;
+}
+
+@keyframes ring1 {
+	0%,
+	50%,
+	100% {
+		transform: rotate(-28deg);
+	}
+	25% {
+		transform: rotate(-33deg);
+	}
+	75% {
+		transform: rotate(-23deg);
+	}
+}
+
+.bell-two {
+	right: 5px;
+	transform: rotate(28deg);
+	//animation: ring2 200ms infinite;
+}
+
+@keyframes ring2 {
+	0%,
+	50%,
+	100% {
+		transform: rotate(28deg);
+	}
+	25% {
+		transform: rotate(33deg);
+	}
+	75% {
+		transform: rotate(23deg);
+	}
+}
+
+.hammer {
+	position: absolute;
+	top: 15px;
+	left: 72.5px;
+	height: 25px;
+	width: 5px;
+}
+
+.hammer:after {
+	position: absolute;
+	height: 6px;
+	width: 15px;
+	top: -5px;
+	left: -5px;
+	content: "";
+	background-color: cadetblue;
+}
+
+.feet {
+	position: absolute;
+	top: 155px;
+	height: 25px;
+	width: 8px;
+}
+
+.foot-one {
+	left: 17px;
+	transform: skewX(-40deg);
+}
+
+.foot-two {
+	right: 17px;
+	transform: skewX(40deg);
+}
+
+.long-hand {
+	position: absolute;
+	width: 4px;
+	height: 50px;
+	border-radius: 2px;
+	top: 52.5px;
+	left: 73px;
+	transform-origin: 2px 48px;
+	background-color: cadetblue;
+}
+
+.second-hand-unwind {
+	animation: unwind-second-hand 60s linear infinite;
+}
+
+.minute-hand-unwind {
+	animation: unwind-minute-hand 3600s linear infinite;
+}
+
+.second-hand-wind {
+	animation: wind-second-hand 4s;
+}
+
+.minute-hand-wind {
+	animation: wind-minute-hand 4s;
+}
+
+@keyframes unwind-second-hand {
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+.lvl1 {
+	display: none;
+	text-align: center;
+	letter-spacing: 3px;
+	line-height: 1.5;
+	font-weight: bold;
+}
+
+.lvl2 {
+	display: none;
+	text-align: center;
+	letter-spacing: 2px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.b {
+	//border: 1px solid black;
+	//margin: 1px;
+}
+
+.time-control-container {
+	position:relative;
+	//display:inline-block;
+	//vertical-align: top;
+	padding-top: 15px;
+	width: 200px;
+	margin: auto;
+}
+
+.work-container, .play-container {
+	position: relative;
+	display: inline-block;
+	//height: 80px;
+	//width: 100px;
+	padding: 4px ;
+}
+
+.control-container {
+	position: relative;
+	display: inline-block;
+	width: 30px;
+    padding: 5px;
+    text-align: center;
+
+
+}
+
+.message-container {
+	position: relative;
+}
+
+.work-label, .play-label {
+	letter-spacing: 2px;
+	text-align: center;
+	border-bottom: 2px solid paleturquoise;
+}
+
+.work-time-controls, .play-time-controls {
+	display: inline-block;
+	vertical-align: middle;
+	text-align: center;
+	padding-right: 5px
+}
+
+.work-time, .play-time {
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 40px;
+	font-weight: 100;
+}
+
+.work-time-label, .play-time-label {
+	font-size: 20px;
+	font-weight: 600;
+}
+
+.background-container{
+	width: 340px;
+	margin: auto;
+}
+
+.message-container {
+	font-size: 20px;
+	padding-top: 10px;
+}
+
+.continue-back, .next-step-back, .snooze, .next-step-back, .next-step-adjust, .next-step-start {
+	padding: 10px;
+
+}
+
+.pause {
+	display: none;
+}
+
+.title {
+	width: 100%;
+	text-align: center;
+	font-size: 30px;
+	line-height: 2;
+	letter-spacing: 3px;
+	font-weight: 600;
+}
+
+.snooze-icon{
+	position:absolute;
+	display: none;
+	top:90px;
+	left:55px;
+	letter-spacing: 4px;
+	animation: snooze-bounce 1s infinite;
+}
+
+@keyframes snooze-bounce {
+	50% {
+		top: 85px;
+	}
+
+}
+
+.highlight{
+	border-bottom: 2px solid cadetblue;
+}
