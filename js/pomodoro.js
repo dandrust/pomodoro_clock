@@ -84,8 +84,8 @@ $(document).ready(function() {
                     clock.pause();
                 }
             } else if (!clock.state) {
-                // Hide messages
                 messageCenter.hideAll();
+                cycle.increment();
                 clock.setClockTime();
             }
         }
@@ -160,6 +160,7 @@ $(document).ready(function() {
             clock.paused = !clock.paused;
             console.log("clock.paused " + clock.paused);
         },
+        
 
         setClockTime: function() {
             if (clock.mode === "work") {
@@ -258,6 +259,12 @@ $(document).ready(function() {
             if (snooze.state) {
                 snooze.hideAnimation();
                 snooze.toggleSnoozeState();
+            } else {
+                if (cycle.get() < 4) {
+                    cycle.complete();                  
+                } else {
+                    cycle.reset();                 
+                }
             }
             chimes.animate();
             controlCenter.toggleControlButton();
@@ -356,6 +363,27 @@ $(document).ready(function() {
 
     };
 
+    var cycle = {
+      cycle: 0,
+      
+      get: function() {
+        return cycle.cycle;
+      },
+      
+      increment: function() {
+        cycle.cycle += 1;
+      },
+      
+      complete: function() {
+        $('.cycle-' + cycle.cycle).addClass('complete');
+      },
+        
+      reset: function() {
+        $('.cycle').removeClass('complete');
+        cycle.cycle = 0;
+      },
+    };
+    
     var reminder = {
         reminderEvent: 0,
 
@@ -496,7 +524,6 @@ $(document).ready(function() {
     $(".snooze-5").on("click", function() {
         messageCenter.hideAll();
         snooze.start(5);
-
     });
     $(".snooze-10").on("click", function() {
         messageCenter.hideAll();
@@ -506,7 +533,6 @@ $(document).ready(function() {
     $(".snooze-15").on("click", function() {
         messageCenter.hideAll();
         snooze.start(15);
-
     });
 
     $(".next-step-container").on("click", function() {

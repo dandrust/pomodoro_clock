@@ -1,6 +1,3 @@
-
-
-
 div {
 	font-family: helvetica;
 	color: cadetblue;
@@ -261,7 +258,7 @@ body {
 	//margin: 1px;
 }
 
-.time-control-container {
+.time-control-container, .cycle-count-container {
 	position:relative;
 	//display:inline-block;
 	//vertical-align: top;
@@ -364,4 +361,19 @@ body {
 
 .button, .start, .pause {
 	cursor: pointer;
+}
+
+.cycle {
+  display: inline-block;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: cadetblue;
+  border: 5px solid cadetblue;
+  font-color: cadetblue;
+  font-size: 20px;
+} 
+
+.complete {
+  background-color: palegoldenrod;
 }
