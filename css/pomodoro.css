@@ -185,6 +185,7 @@ body {
 	left: -5px;
 	content: "";
 	background-color: cadetblue;
+  border-radius: 5px;
 }
 
 .feet {
@@ -202,6 +203,27 @@ body {
 .foot-two {
 	right: 17px;
 	transform: skewX(40deg);
+}
+
+.foot-pad {
+	position: absolute;
+	height: 6px;
+  width: 18px;
+  top: 175px;
+  left: 5px;
+	content: "";
+	background-color: cadetblue;
+  border-radius: 5px;
+}
+
+.pad-one {
+  top: 175px;
+  left: 5px;
+}
+
+.pad-two {
+  top: 175px;
+  left: 127px;
 }
 
 .long-hand {

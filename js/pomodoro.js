@@ -85,8 +85,10 @@ $(document).ready(function() {
                 }
             } else if (!clock.state) {
                 messageCenter.hideAll();
-                cycle.increment();
                 clock.setClockTime();
+                if (!clock.snoozing && clock.mode === "work") {
+                    cycle.increment();
+                }
             }
         }
     };
@@ -134,6 +136,7 @@ $(document).ready(function() {
 
         state: false,
         paused: false,
+        snoozing: false,
         mode: "work",
         time: 0,
         timeElapsed: 0,
@@ -155,18 +158,25 @@ $(document).ready(function() {
             console.log("clock.mode " + clock.mode);
             controlCenter.toggleHighlightBar();
         },
+        
+        toggleSnooze: function() {
+            clock.snoozing = !clock.snoozing;
+            console.log("clock.snoozing " + clock.snoozing);
+        },
 
         togglePause: function() {
             clock.paused = !clock.paused;
             console.log("clock.paused " + clock.paused);
         },
         
-
-        setClockTime: function() {
+        setClockTime: function(minutes) {
             if (clock.mode === "work") {
                 clock.time = controlCenter.workTime.get();
             } else if (clock.mode === "play") {
                 clock.time = controlCenter.playTime.get();
+            } else {
+              // snooze
+              clock.time = minutes
             }
             clock.wind();
         },
@@ -254,28 +264,41 @@ $(document).ready(function() {
             // Remove position class from minute hand, reset
             clock.minuteHand.setPositionClass(false);
 
-            clock.toggleClockState();
-            clock.toggleClockMode();
-            if (snooze.state) {
-                snooze.hideAnimation();
-                snooze.toggleSnoozeState();
-            } else {
+            if (!clock.snoozing && clock.mode === "work") {
                 if (cycle.get() < 4) {
                     cycle.complete();                  
                 } else {
                     cycle.reset();                 
                 }
             }
+            clock.toggleClockState();
+            clock.toggleClockMode();
+            if (clock.snoozing) {
+                clock.hideSnoozeAnimation();
+                clock.toggleSnooze();
+            }
             chimes.animate();
             controlCenter.toggleControlButton();
             reminder.set();
             messageCenter.displayNextStep(clock.mode);
         },
+        
+        snooze: function(minutes) {
+            clock.toggleSnooze();
+            clock.setClockTime(minutes);
+            clock.toggleClockMode();
+            clock.showSnoozeAnimation();
+        },
+        
+        showSnoozeAnimation: function() {
+            $(".snooze-icon").show();
+        },
+        hideSnoozeAnimation: function() {
+            $(".snooze-icon").hide();
+        },
 
         recieveSnooze: function(minutes) {
             clock.time = minutes;
-            clock.toggleClockMode();
-            clock.wind();
         },
 
         clearSnooze() {
@@ -372,6 +395,7 @@ $(document).ready(function() {
       
       increment: function() {
         cycle.cycle += 1;
+        console.log("cycle.cycle " + cycle.cycle);
       },
       
       complete: function() {
@@ -403,35 +427,6 @@ $(document).ready(function() {
             window.clearInterval(reminder.reminderEvent);
         },
 
-    };
-
-    var snooze = {
-        state: false,
-        time: 0,
-
-        toggleSnoozeState: function() {
-            snooze.state = !snooze.state;
-            console.log("snooze.state " + snooze.state);
-        },
-        showAnimation: function() {
-            $(".snooze-icon").show();
-        },
-        hideAnimation: function() {
-            $(".snooze-icon").hide();
-        },
-        set: function(minutes) {
-            snooze.time = minutes;
-        },
-        start: function(minutes) {
-            snooze.toggleSnoozeState();
-            snooze.set(minutes);
-            clock.recieveSnooze(minutes);
-            snooze.showAnimation();
-        },
-        clear: function() {
-            clock.clearSnooze();
-            snooze.hideAnimation();
-        },
     };
 
     var messageCenter = {
@@ -523,16 +518,16 @@ $(document).ready(function() {
     });
     $(".snooze-5").on("click", function() {
         messageCenter.hideAll();
-        snooze.start(5);
+        clock.snooze(5);
     });
     $(".snooze-10").on("click", function() {
         messageCenter.hideAll();
-        snooze.start(10);
+        clock.snooze(10);
 
     });
     $(".snooze-15").on("click", function() {
         messageCenter.hideAll();
-        snooze.start(15);
+        clock.snooze(15);
     });
 
     $(".next-step-container").on("click", function() {
